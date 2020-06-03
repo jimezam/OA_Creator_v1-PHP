@@ -1,0 +1,12 @@
+{
+    "name": "jimezam/oa-creator_v1",
+    "description": "Helping tool to develop Learning Objects based on HTML/CSS/Javascript.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Jorge I. Meza",
+            "email": "jimezam@autonoma.edu.co"
+        }
+    ],
+    "require": {}
+}

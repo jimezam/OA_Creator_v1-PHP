@@ -72,7 +72,7 @@ exit;
 
 function coreHelp()
 {
-	$str  = "php creator [options]\n";
+	$str  = "php oacreator.php [options]\n";
 	$str .= "\n";
 	$str .= "Options:\n\n";
 	$str .= "--help                      shows this help message\n";

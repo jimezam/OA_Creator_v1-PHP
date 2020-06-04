@@ -5,7 +5,7 @@ Requires PHP DOM extension
 https://www.php.net/en/dom
 */
 
-// feature excluir directorios de usuario
+// copy other files to target
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -56,7 +56,7 @@ if(isset($options['file']))
 	exit;
 }
 
-// [path] recursive
+// recursive
 if(isset($options['recursive']))		
 {
 	coreBuildAll($options);
@@ -149,16 +149,16 @@ function processIncludeComment($contents, $comment, $filename)
 
 	$comment[0] = ' ';
 
-	$data = json_decode($comment);
+	$json = json_decode($comment);
 
-	if($data === null)
+	if($json === null)
 		die ("ERROR, this include comment has some errors: ".trim($comment)."\n");
 		
 	//////////////////////////////////////////////////////////////////////////
 
-	$templateFile = dirname($filename) . DIRECTORY_SEPARATOR . $data->file;
+	$templateFile = dirname($filename) . DIRECTORY_SEPARATOR . $json->file;
 
-	if(!isset($data->file))
+	if(!isset($json->file))
 		die ("ERROR, This comment does not define the template file: ".trim($comment)."\n");
 
 	if(!file_exists($templateFile) | !is_file($templateFile))
@@ -168,14 +168,15 @@ function processIncludeComment($contents, $comment, $filename)
 
 	$template = file_get_contents($templateFile);
 
-	foreach(get_object_vars($data) as $key=>$value)
+	if(isset($json->variables))
 	{
-		if($key == "file")
-			continue;
-			
-		$template = str_replace(strtolower(VARIABLE_SEPARATOR.$key.VARIABLE_SEPARATOR),
-		                        $value,
-		                        $template);
+		foreach(get_object_vars($json->variables) as $key=>$value)
+		{
+			$template = str_replace(
+						strtolower(VARIABLE_SEPARATOR.$key.VARIABLE_SEPARATOR),
+			                  $value,
+			                  $template);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
